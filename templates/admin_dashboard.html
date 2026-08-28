@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Admin Dashboard</h1>
+
+
+    {% with messages =
+       get_flashed_messages(with_categories=true) %}
+
+        {% for category, message in messages %}
+
+            <div class="message {{ category }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endwith %}
+
+
+    <h2>Voter Verification & Approval</h2>
+
+
+    <table>
+
+        <tr>
+
+            <th>Name</th>
+
+            <th>Voter ID</th>
+
+            <th>DOB</th>
+
+            <th>Aadhaar</th>
+
+            <th>PAN</th>
+
+            <th>Document</th>
+
+            <th>Status</th>
+
+            <th>Action</th>
+
+        </tr>
+
+
+        {% for voter in voters %}
+
+        <tr>
+
+            <td>{{ voter[1] }}</td>
+
+            <td>{{ voter[3] }}</td>
+
+            <td>{{ voter[4] }}</td>
+
+            <td>{{ voter[5] }}</td>
+
+            <td>{{ voter[6] }}</td>
+
+
+            <td>
+
+                {% if voter[7] %}
+
+                    <span class="verified">
+                        ✓ Verified
+                    </span>
+
+                {% else %}
+
+                    <span class="not-verified">
+                        ✗ Not Verified
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+
+            <td>
+                {{ voter[8] }}
+            </td>
+
+
+            <td>
+
+                {% if voter[8] == "Pending"
+                      and voter[7] == True %}
+
+                    <form
+                        action="{{ url_for(
+                            'approve_voter',
+                            voter_id=voter[0]
+                        ) }}"
+                        method="POST"
+                    >
+
+                        <button type="submit">
+                            Approve
+                        </button>
+
+                    </form>
+
+
+                    <form
+                        action="{{ url_for(
+                            'reject_voter',
+                            voter_id=voter[0]
+                        ) }}"
+                        method="POST"
+                    >
+
+                        <button
+                            type="submit"
+                            class="danger"
+                        >
+                            Reject
+                        </button>
+
+                    </form>
+
+                {% else %}
+
+                    No Action
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+
+    <h2>Add Candidate</h2>
+
+
+    <form
+        action="{{ url_for('add_candidate') }}"
+        method="POST"
+    >
+
+        <input
+            type="text"
+            name="candidate_name"
+            placeholder="Candidate Name"
+            required
+        >
+
+
+        <input
+            type="text"
+            name="party_name"
+            placeholder="Party Name"
+            required
+        >
+
+
+        <input
+            type="text"
+            name="symbol"
+            placeholder="Symbol"
+            required
+        >
+
+
+        <button type="submit">
+            Add Candidate
+        </button>
+
+    </form>
+
+
+    <h2>Candidate Management</h2>
+
+
+    <table>
+
+        <tr>
+
+            <th>Name</th>
+
+            <th>Party</th>
+
+            <th>Symbol</th>
+
+            <th>Action</th>
+
+        </tr>
+
+
+        {% for candidate in candidates %}
+
+        <tr>
+
+            <td>{{ candidate[1] }}</td>
+
+            <td>{{ candidate[2] }}</td>
+
+            <td>{{ candidate[3] }}</td>
+            <td>
+
+                <form
+                    action="{{ url_for(
+                        'delete_candidate',
+                        candidate_id=candidate[0]
+                    ) }}"
+                    method="POST"
+                >
+
+                    <button
+                        type="submit"
+                        class="danger"
+                    >
+                        Delete
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+
+    <br>
+
+    <a href="{{ url_for('result') }}">
+        View Results
+    </a>
+
+    <br><br>
+
+    <a href="{{ url_for('logout') }}">
+        Logout
+    </a>
+    
+    <a href="{{ url_for('back to login') }}">
+        voter login
+    </a>
+
+</div>
+
+</body>
+
+</html>

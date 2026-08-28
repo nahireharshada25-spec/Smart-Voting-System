@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Election Results</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Election Results</h1>
+
+
+    <table>
+
+        <tr>
+
+            <th>Candidate</th>
+
+            <th>Party</th>
+
+            <th>Symbol</th>
+
+            <th>Total Votes</th>
+
+        </tr>
+
+
+        {% for result in results %}
+
+        <tr>
+
+            <td>{{ result[0] }}</td>
+
+            <td>{{ result[1] }}</td>
+
+            <td>{{ result[2] }}</td>
+
+            <td>{{ result[3] }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+    <div class="navigation">
+
+    <a class="nav-btn"
+       href="{{ url_for('voter_dashboard') }}">
+        ← Voter Dashboard
+    </a>
+
+    <a class="nav-btn"
+       href="{{ url_for('candidates') }}">
+        🗳️ Candidates
+    </a>
+
+    <a class="nav-btn"
+       href="{{ url_for('index') }}">
+        🏠 Home
+    </a>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

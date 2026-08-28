@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Voter Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Voter Login</h1>
+
+
+    <!-- Flash Messages -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- Login Form -->
+
+    <form method="POST"
+          action="{{ url_for('login') }}">
+
+
+        <!-- Email -->
+
+        <label for="email">
+            Email
+        </label>
+
+        <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your Email"
+            required
+        >
+
+
+        <!-- Password -->
+
+        <label for="password">
+            Password
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your Password"
+            required
+        >
+
+
+        <!-- Login Button -->
+
+        <button
+            type="submit"
+            class="btn">
+
+            🔐 Login
+
+        </button>
+
+    </form>
+
+
+    <!-- Navigation Buttons -->
+
+    <div class="navigation">
+
+
+        <!-- Back to Home -->
+
+        <a
+            class="nav-btn"
+            href="{{ url_for('index') }}">
+
+            🏠 Back to Home
+
+        </a>
+
+
+        <!-- Register -->
+
+        <a
+            class="nav-btn"
+            href="{{ url_for('register') }}">
+
+            📝 New Voter? Register
+
+        </a>
+
+
+        <a
+            class="nav-btn"
+            href="{{ url_for('admin_login') }}" >
+
+           🔐 Admin Login
+        </a>
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

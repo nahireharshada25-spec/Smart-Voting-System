@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Candidates</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Candidate List</h1>
+
+
+    {% with messages =
+       get_flashed_messages(with_categories=true) %}
+
+        {% for category, message in messages %}
+
+            <div class="message {{ category }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endwith %}
+
+
+    {% if already_voted %}
+
+        <div class="already-voted">
+
+            <h2>✓ Already Voted</h2>
+
+            <p>
+                You have already cast your vote.
+            </p>
+
+            <p>
+                One voter can vote only once.
+            </p>
+
+        </div>
+
+    {% else %}
+
+
+        <div class="candidate-container">
+
+            {% for candidate in candidates %}
+
+            <div class="candidate-card">
+
+                <div class="symbol">
+                    {{ candidate[3] }}
+                </div>
+
+                <h2>
+                    {{ candidate[1] }}
+                </h2>
+
+                <p>
+                    Party:
+                    {{ candidate[2] }}
+                </p>
+
+
+                <form
+                    action="{{ url_for(
+                        'vote',
+                        candidate_id=candidate[0]
+                    ) }}"
+                    method="POST"
+                    onsubmit="return confirmVote();"
+                >
+
+                    <button type="submit">
+                        Vote
+                    </button>
+
+                </form>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+</div>
+<div class="navigation">
+
+    <a class="nav-btn"
+       href="{{ url_for('voter_dashboard') }}">
+        ← Back to Dashboard
+    </a>
+
+    <a class="nav-btn"
+       href="{{ url_for('result') }}">
+        📊 View Results
+    </a>
+
+    <a class="nav-btn"
+       href="{{ url_for('logout') }}">
+        🚪 Logout
+    </a>
+
+</div>
+
+<script src="{{ url_for(
+    'static',
+    filename='js/script.js'
+) }}"></script>
+
+</body>
+
+</html>

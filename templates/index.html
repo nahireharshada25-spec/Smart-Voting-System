@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Smart Voting System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container home-container">
+
+    <h1>🗳️ Smart Voting System</h1>
+
+    <p>
+        Secure Online Voting Registration System
+    </p>
+
+    <div class="home-buttons">
+
+        <a href="{{ url_for('register') }}">
+            <button>
+                📝 Voter Registration
+            </button>
+        </a>
+
+        <a href="{{ url_for('login') }}">
+            <button>
+                🔐 Voter Login
+            </button>
+        </a>
+
+        <a href="{{ url_for('admin_login') }}">
+            <button>
+                👨‍💼 Admin Login
+            </button>
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

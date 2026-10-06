@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Voting System | Secure Digital Voting</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* =====================================================
+           HOMEPAGE ONLY - SMART VOTING SYSTEM
+           Existing backend and other pages are not changed.
+        ===================================================== */
+
+        body {
+            margin: 0 !important;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(99,102,241,.16), transparent 28%),
+                radial-gradient(circle at 90% 80%, rgba(124,58,237,.13), transparent 30%),
+                linear-gradient(135deg, #f8faff 0%, #eef2ff 48%, #f8fafc 100%);
+            color: #172554;
+        }
+
+        .sv-home {
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .sv-nav {
+            width: min(1180px, 92%);
+            margin: 0 auto;
+            padding: 22px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .sv-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #1e1b4b;
+        }
+
+        .sv-logo {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            font-size: 25px;
+            box-shadow: 0 10px 24px rgba(79,70,229,.25);
+        }
+
+        .sv-brand strong {
+            display: block;
+            font-size: 19px;
+            line-height: 1.1;
+        }
+
+        .sv-brand span {
+            display: block;
+            margin-top: 4px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .sv-admin-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 17px;
+            border: 1px solid #c7d2fe;
+            border-radius: 999px;
+            background: rgba(255,255,255,.72);
+            color: #3730a3;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            transition: .25s ease;
+        }
+
+        .sv-admin-link:hover {
+            transform: translateY(-2px);
+            background: #eef2ff;
+            box-shadow: 0 8px 20px rgba(79,70,229,.12);
+        }
+
+        .sv-hero {
+            width: min(1180px, 92%);
+            margin: 35px auto 0;
+            display: grid;
+            grid-template-columns: 1.08fr .92fr;
+            align-items: center;
+            gap: 55px;
+            padding: 45px 0 70px;
+        }
+
+        .sv-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 13px;
+            border-radius: 999px;
+            background: #eef2ff;
+            color: #4338ca;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid #e0e7ff;
+        }
+
+        .sv-hero h1 {
+            text-align: left;
+            color: #172554;
+            font-size: clamp(42px, 5vw, 66px);
+            line-height: 1.03;
+            letter-spacing: -2px;
+            margin: 20px 0 18px;
+        }
+
+        .sv-gradient-text {
+            color: #4f46e5;
+        }
+
+        .sv-hero-text {
+            max-width: 650px;
+            font-size: 18px;
+            line-height: 1.75;
+            color: #64748b;
+            margin: 0 0 28px;
+        }
+
+        .sv-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+            align-items: center;
+        }
+
+        .sv-primary,
+        .sv-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            min-height: 50px;
+            padding: 0 22px;
+            border-radius: 13px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            transition: .25s ease;
+        }
+
+        .sv-primary {
+            color: white;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            box-shadow: 0 12px 26px rgba(79,70,229,.25);
+        }
+
+        .sv-secondary {
+            color: #3730a3;
+            background: white;
+            border: 1px solid #c7d2fe;
+            box-shadow: 0 8px 20px rgba(15,23,42,.06);
+        }
+
+        .sv-primary:hover,
+        .sv-secondary:hover {
+            transform: translateY(-3px);
+        }
+
+        .sv-primary:hover {
+            box-shadow: 0 16px 32px rgba(79,70,229,.32);
+        }
+
+        .sv-secondary:hover {
+            background: #f8faff;
+        }
+
+        .sv-trust {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 25px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .sv-trust span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sv-visual {
+            position: relative;
+            min-height: 430px;
+            display: grid;
+            place-items: center;
+        }
+
+        .sv-orb {
+            position: absolute;
+            width: 310px;
+            height: 310px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(99,102,241,.22), rgba(124,58,237,.10));
+            filter: blur(.2px);
+        }
+
+        .sv-card {
+            position: relative;
+            width: min(380px, 90%);
+            padding: 30px;
+            border-radius: 26px;
+            background: rgba(255,255,255,.91);
+            border: 1px solid rgba(255,255,255,.9);
+            box-shadow: 0 25px 60px rgba(30,41,59,.15);
+            backdrop-filter: blur(12px);
+        }
+
+        .sv-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .sv-card-title {
+            font-weight: 800;
+            color: #1e1b4b;
+        }
+
+        .sv-live {
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #ecfdf5;
+            color: #047857;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .sv-shield {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 24px;
+            display: grid;
+            place-items: center;
+            border-radius: 28px;
+            font-size: 52px;
+            background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+            border: 1px solid #e0e7ff;
+        }
+
+        .sv-card h3 {
+            text-align: center;
+            margin: 0 0 8px;
+            color: #1e1b4b;
+            font-size: 22px;
+        }
+
+        .sv-card p {
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 22px;
+        }
+
+        .sv-mini-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 9px;
+        }
+
+        .sv-mini {
+            padding: 11px 6px;
+            text-align: center;
+            border-radius: 12px;
+            background: #f8fafc;
+            color: #475569;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .sv-section {
+            width: min(1180px, 92%);
+            margin: 0 auto;
+            padding: 25px 0 75px;
+        }
+
+        .sv-section-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sv-section-heading h2 {
+            margin: 0 0 9px;
+            color: #1e1b4b;
+            font-size: 32px;
+        }
+
+        .sv-section-heading p {
+            margin: 0;
+            color: #64748b;
+        }
+
+        .sv-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .sv-feature {
+            padding: 25px;
+            border-radius: 20px;
+            background: rgba(255,255,255,.82);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 30px rgba(15,23,42,.05);
+            transition: .25s ease;
+        }
+
+        .sv-feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 34px rgba(15,23,42,.09);
+        }
+
+        .sv-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: #eef2ff;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .sv-feature h3 {
+            margin: 0 0 8px;
+            color: #1e293b;
+        }
+
+        .sv-feature p {
+            margin: 0;
+            color: #64748b;
+            line-height: 1.65;
+            font-size: 14px;
+        }
+
+        .sv-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .sv-step {
+            position: relative;
+            text-align: center;
+            padding: 23px 15px;
+            background: white;
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .sv-step-number {
+            width: 38px;
+            height: 38px;
+            margin: 0 auto 12px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            font-weight: 800;
+        }
+
+        .sv-step strong {
+            display: block;
+            color: #334155;
+            margin-bottom: 5px;
+        }
+
+        .sv-step span {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .sv-footer {
+            width: min(1180px, 92%);
+            margin: 0 auto;
+            padding: 22px 0 30px;
+            border-top: 1px solid #dbe3f0;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        @media (max-width: 900px) {
+            .sv-hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 25px;
+            }
+
+            .sv-hero h1 {
+                text-align: center;
+            }
+
+            .sv-hero-text {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .sv-actions,
+            .sv-trust {
+                justify-content: center;
+            }
+
+            .sv-features {
+                grid-template-columns: 1fr;
+            }
+
+            .sv-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 560px) {
+            .sv-nav {
+                padding-top: 16px;
+            }
+
+            .sv-brand span {
+                display: none;
+            }
+
+            .sv-admin-link {
+                padding: 9px 12px;
+                font-size: 12px;
+            }
+
+            .sv-hero {
+                margin-top: 15px;
+                padding-top: 25px;
+            }
+
+            .sv-hero h1 {
+                font-size: 42px;
+            }
+
+            .sv-actions {
+                flex-direction: column;
+            }
+
+            .sv-primary,
+            .sv-secondary {
+                width: min(100%, 330px);
+            }
+
+            .sv-visual {
+                min-height: 360px;
+            }
+
+            .sv-card {
+                padding: 24px;
+            }
+
+            .sv-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .sv-footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="sv-home">
+
+    <!-- Top navigation -->
+    <header class="sv-nav">
+        <a href="{{ url_for('index') }}" class="sv-brand">
+            <div class="sv-logo">🗳️</div>
+            <div>
+                <strong>Smart Voting System</strong>
+                <span>Secure Digital Voting Platform</span>
+            </div>
+        </a>
+
+        <a href="{{ url_for('admin_login') }}" class="sv-admin-link">
+            🔑 Admin Portal
+        </a>
+    </header>
+
+    <!-- Hero -->
+    <main>
+        <section class="sv-hero">
+            <div>
+                <div class="sv-badge">✓ Secure &nbsp;•&nbsp; Verified &nbsp;•&nbsp; Transparent</div>
+
+                <h1>
+                    Your Vote.<br>
+                    <span class="sv-gradient-text">Your Voice.</span>
+                </h1>
+
+                <p class="sv-hero-text">
+                    A simple and secure online voting platform for voter registration,
+                    verification and digital election management.
+                </p>
+
+                <div class="sv-actions">
+                    <a href="{{ url_for('register') }}" class="sv-primary">
+                        📝 Register as Voter
+                    </a>
+
+                    <a href="{{ url_for('login') }}" class="sv-secondary">
+                        🔐 Voter Login
+                    </a>
+                </div>
+
+                <div class="sv-trust">
+                    <span>🔒 Secure Authentication</span>
+                    <span>✓ Voter Verification</span>
+                    <span>📊 Transparent Results</span>
+                </div>
+            </div>
+
+            <div class="sv-visual">
+                <div class="sv-orb"></div>
+
+                <div class="sv-card">
+                    <div class="sv-card-top">
+                        <span class="sv-card-title">Voting Portal</span>
+                        <span class="sv-live">● SECURE</span>
+                    </div>
+
+                    <div class="sv-shield">🛡️</div>
+
+                    <h3>Vote with Confidence</h3>
+                    <p>
+                        Your identity is verified before voting, helping maintain
+                        a trusted and transparent election process.
+                    </p>
+
+                    <div class="sv-mini-row">
+                        <div class="sv-mini">🔐 Secure</div>
+                        <div class="sv-mini">✓ Verified</div>
+                        <div class="sv-mini">📋 Reliable</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="sv-section">
+            <div class="sv-section-heading">
+                <h2>Built for a Better Voting Experience</h2>
+                <p>Everything you need for a simple and organized voting process.</p>
+            </div>
+
+            <div class="sv-features">
+                <div class="sv-feature">
+                    <div class="sv-icon">🔒</div>
+                    <h3>Secure Authentication</h3>
+                    <p>
+                        Voters log in using their registered credentials and access
+                        the voting system securely.
+                    </p>
+                </div>
+
+                <div class="sv-feature">
+                    <div class="sv-icon">✅</div>
+                    <h3>Voter Verification</h3>
+                    <p>
+                        Voter information and documents can be reviewed before an
+                        account is approved for voting.
+                    </p>
+                </div>
+
+                <div class="sv-feature">
+                    <div class="sv-icon">📊</div>
+                    <h3>Transparent Results</h3>
+                    <p>
+                        Election results are presented in a clear and organized way
+                        after the voting process.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it works -->
+        <section class="sv-section" style="padding-top: 0;">
+            <div class="sv-section-heading">
+                <h2>How It Works</h2>
+                <p>Four simple steps from registration to voting.</p>
+            </div>
+
+            <div class="sv-steps">
+                <div class="sv-step">
+                    <div class="sv-step-number">1</div>
+                    <strong>Register</strong>
+                    <span>Create your voter account</span>
+                </div>
+
+                <div class="sv-step">
+                    <div class="sv-step-number">2</div>
+                    <strong>Verify</strong>
+                    <span>Complete voter verification</span>
+                </div>
+
+                <div class="sv-step">
+                    <div class="sv-step-number">3</div>
+                    <strong>Get Approved</strong>
+                    <span>Admin reviews your request</span>
+                </div>
+
+                <div class="sv-step">
+                    <div class="sv-step-number">4</div>
+                    <strong>Vote</strong>
+                    <span>Login and cast your vote</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="sv-footer">
+        <span>© 2026 Smart Voting System</span>
+        <span>Secure • Simple • Transparent</span>
+    </footer>
+
+</div>
+</body>
+</html>

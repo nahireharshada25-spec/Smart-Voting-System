@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Voter Registration</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <h2>Voter Registration</h2>
+
+    <p class="info">
+        No document upload is required.
+        Your information will be automatically
+        verified from the database.
+    </p>
+
+
+    {% with messages =
+       get_flashed_messages(with_categories=true) %}
+
+        {% for category, message in messages %}
+
+            <div class="message {{ category }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endwith %}
+
+
+    <form method="POST">
+
+        <label>Full Name</label>
+
+        <input
+            type="text"
+            name="full_name"
+            required
+        >
+
+
+        <label>Email</label>
+
+        <input
+            type="email"
+            name="email"
+            autocomplete="email"
+            required
+        >
+
+
+        <label>Voter ID Number</label>
+
+        <input
+            type="text"
+            name="voter_number"
+            required
+        >
+
+
+        <label>Date of Birth</label>
+
+        <input
+            type="date"
+            name="dob"
+            required
+        >
+
+
+        <label>Aadhaar Number</label>
+
+        <input
+            type="text"
+            name="aadhaar_number"
+            maxlength="12"
+            pattern="[0-9]{12}"
+            required
+        >
+
+
+        <label>PAN Number</label>
+
+        <input
+            type="text"
+            name="pan_number"
+            maxlength="10"
+            required
+        >
+
+
+        <label>Password</label>
+
+        <input
+            type="password"
+            name="password"
+            required
+        >
+
+
+        <button type="submit">
+            Verify & Register
+        </button>
+
+    </form>
+    <div class="navigation">
+
+    <a class="nav-btn"
+       href="{{ url_for('index') }}">
+        🏠 Back to Home
+    </a>
+
+    <a class="nav-btn"
+       href="{{ url_for('login') }}">
+        🔐 Already Registered? Login
+    </a>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

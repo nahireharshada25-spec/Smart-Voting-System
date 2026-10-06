@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <h2>Admin Login</h2>
+
+
+    {% with messages =
+       get_flashed_messages(with_categories=true) %}
+
+        {% for category, message in messages %}
+
+            <div class="message {{ category }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endwith %}
+
+
+    <form method="POST">
+
+        <label>Username</label>
+
+        <input
+            type="text"
+            name="username"
+            required
+        >
+
+
+        <label>Password</label>
+
+        <input
+            type="password"
+            name="password"
+            required
+        >
+
+
+        <button type="submit">
+            Admin Login
+        </button>
+
+    </form>
+    <div class="navigation">
+
+    <a class="nav-btn"
+       href="{{ url_for('index') }}">
+        🏠 Back to Home
+    </a>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
